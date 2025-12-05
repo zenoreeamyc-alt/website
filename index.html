@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topup H2H Atlantic - Dashboard Sederhana</title>
+  <meta name="description" content="Website topup H2H Atlantic dengan deposit, status, dan profil. API key diatur lewat settings.html." />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+    :root{
+      --bg:#020617;--bg-soft:#020617;
+      --card:#0f172a;
+      --accent:#38bdf8;--accent-soft:rgba(56,189,248,.12);
+      --danger:#f97373;
+      --success:#4ade80;
+      --text:#e5e7eb;--text-soft:#9ca3af;
+      --border:rgba(148,163,184,.35);
+    }
+    body{background:radial-gradient(circle at top,rgba(56,189,248,.18),transparent 60%),var(--bg-soft);color:var(--text);min-height:100vh;}
+    .container{max-width:1200px;margin:auto;padding:0 1.3rem;}
+    header{position:sticky;top:0;z-index:20;background:rgba(15,23,42,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;}
+    .logo{font-weight:700;font-size:1.3rem;letter-spacing:.04em;}
+    .logo span{color:var(--accent);}
+    nav{display:flex;gap:.7rem;font-size:.85rem;}
+    nav button{background:transparent;border:none;color:var(--text-soft);padding:.4rem .8rem;border-radius:999px;cursor:pointer;}
+    nav button.active{background:var(--accent-soft);color:var(--accent);}
+    main{padding:2.4rem 0 1.5rem;}
+    .section{display:none;}
+    .section.active{display:block;}
+    h1{font-size:1.7rem;margin-bottom:.5rem;}
+    .lead{color:var(--text-soft);max-width:640px;font-size:.9rem;line-height:1.6;}
+    .hero-grid{display:grid;gap:1.6rem;margin-top:1.8rem;}
+    .card{background:var(--card);border-radius:1rem;border:1px solid var(--border);padding:1.3rem;}
+    .pill{display:inline-flex;align-items:center;font-size:.7rem;border-radius:999px;padding:.25rem .6rem;border:1px solid var(--border);color:var(--text-soft);gap:.35rem;margin-bottom:.9rem;}
+    .pill span{width:.35rem;height:.35rem;border-radius:999px;background:#22c55e;}
+    .grid{display:grid;gap:1rem;}
+    .products-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:1rem;}
+    .product-card{cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;border-radius:1rem;border:1px solid var(--border);background:var(--card);padding:1rem;text-align:left;}
+    .product-card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(15,23,42,.8);}
+    .product-title{font-size:.95rem;margin-bottom:.1rem;}
+    .product-meta{font-size:.75rem;color:var(--text-soft);margin-top:.15rem;}
+    .price{margin-top:.4rem;font-weight:600;font-size:.95rem;}
+    .pill-filter{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+    .pill-filter button{border-radius:999px;padding:.25rem .7rem;font-size:.75rem;border:1px solid var(--border);background:transparent;color:var(--text-soft);cursor:pointer;}
+    .pill-filter button.active{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-soft);}
+    label{display:block;font-size:.8rem;margin-bottom:.25rem;color:var(--text-soft);}
+    input,select,textarea{width:100%;padding:.55rem .7rem;border-radius:.6rem;border:1px solid var(--border);background:#020617;color:#e5e7eb;font-size:.85rem;}
+    input::placeholder,textarea::placeholder{color:rgba(148,163,184,.8);}
+    textarea{min-height:70px;resize:vertical;}
+    .field{margin-bottom:.7rem;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem 1.2rem;border-radius:.7rem;font-size:.85rem;font-weight:600;border:none;cursor:pointer;}
+    .btn-primary{background:var(--accent);color:#020617;}
+    .btn-ghost{background:transparent;color:var(--text-soft);border:1px solid var(--border);}
+    .btn[disabled]{opacity:.6;cursor:not-allowed;}
+    .status{margin-top:.6rem;font-size:.8rem;min-height:1.2rem;}
+    .status.ok{color:var(--success);}
+    .status.err{color:var(--danger);}
+    .status.muted{color:var(--text-soft);}
+    pre{background:#020617;border-radius:.7rem;padding:.7rem;font-size:.75rem;overflow-x:auto;border:1px solid var(--border);color:#e5e7eb;margin-top:.6rem;}
+    code{font-family:ui-monospace,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:.78rem;}
+    .subtitle{font-size:.82rem;color:var(--text-soft);margin-bottom:.8rem;}
+    .two-col{display:grid;gap:1rem;}
+    .qr-box{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem;border-radius:.9rem;border:1px dashed var(--border);background:#020617;}
+    .qr-box img{max-width:220px;border-radius:.7rem;margin-top:.7rem;}
+    footer{border-top:1px solid var(--border);margin-top:2rem;padding:1rem 0 1.2rem;font-size:.75rem;color:var(--text-soft);text-align:center;background:#020617c0;}
+    @media(min-width:780px){
+      .hero-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);align-items:center;}
+      .two-col{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav-inner">
+    <div class="logo">Topup<span>H2H</span></div>
+    <nav>
+      <button data-tab="home" class="active">Beranda</button>
+      <button data-tab="topup">Topup</button>
+      <button data-tab="deposit">Deposit</button>
+      <button data-tab="status">Status</button>
+      <button data-tab="profile">Profil</button>
+      <a href="settings.html" style="text-decoration:none;">
+        <button type="button">Settings</button>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <!-- HOME -->
+  <section id="tab-home" class="section active">
+    <div class="pill"><span></span> Terhubung langsung ke API Atlantic dari browser</div>
+    <h1>Dashboard Topup H2H Atlantic (Front-end Only)</h1>
+    <p class="lead">
+      Website ini memanggil API Atlantic langsung dari browser menggunakan API key
+      yang kamu simpan di halaman <code>settings.html</code>. Tidak ada backend Vercel
+      dan tidak perlu mengedit file.
+    </p>
+
+    <div class="hero-grid">
+      <div class="card">
+        <h3>Alur Topup</h3>
+        <p class="subtitle">
+          Disesuaikan dengan dokumen Atlantic: transaksi create, status, deposit, dan profil.
+        </p>
+        <ol style="font-size:.85rem;line-height:1.6;color:var(--text-soft);padding-left:1.1rem;">
+          <li>Buka <strong>settings.html</strong> dan simpan API key Atlantic.</li>
+          <li>Masuk ke tab <strong>Topup</strong>, pilih produk dan isi nomor tujuan.</li>
+          <li>Website akan memanggil <code>/transaksi/create</code> langsung ke Atlantic.</li>
+          <li>Gunakan tab <strong>Status</strong> dan <strong>Deposit</strong> untuk cek transaksi dan pembayaran.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Catatan Keamanan</h3>
+        <p class="subtitle">
+          API key akan tersimpan di <code>localStorage</code> browser ini saja.
+          Jika website kamu dipakai publik, pengunjung lain tidak otomatis memiliki API key,
+          jadi fitur hanya berfungsi di browser yang sudah diisi key.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPUP -->
+  <section id="tab-topup" class="section">
+    <h2 style="font-size:1.1rem;margin-bottom:.5rem;">Topup Prabayar</h2>
+    <p class="subtitle">
+      Pilih produk dari daftar, lalu isi nomor tujuan. Kode layanan akan terisi otomatis.
+      Produk diambil dari <code>products.json</code>.
+    </p>
+
+    <div class="card">
+      <div class="pill-filter" id="productFilters">
+        <button data-filter="all" class="active">Semua</button>
+        <button data-filter="ewallet">E-Wallet</button>
+        <button data-filter="pulsa">Pulsa & Data</button>
+        <button data-filter="game">Game</button>
+      </div>
+      <div id="productsGrid" class="grid products-grid" style="margin-top:1rem;">
+        <p style="color:var(--text-soft);font-size:.9rem;">Memuat produk...</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1.4rem;">
+      <h3 style="font-size:.98rem;margin-bottom:.5rem;">Form Order</h3>
+      <p class="subtitle">
+        Kode layanan bisa diisi manual atau dari produk.
+      </p>
+      <form id="topupForm">
+        <div class="two-col">
+          <div>
+            <div class="field">
+              <label for="topupCode">Kode Layanan</label>
+              <input id="topupCode" placeholder="contoh: DANA10, PULSA25" required />
+            </div>
+            <div class="field">
+              <label for="topupTarget">Nomor Tujuan / ID</label>
+              <input id="topupTarget" placeholder="0851xxxxxxxx / ID Game" required />
+            </div>
+            <div class="field">
+              <label for="topupReff">Reff ID (optional)</label>
+              <input id="topupReff" placeholder="Jika kosong akan dibuat otomatis" />
+            </div>
+          </div>
+          <div>
+            <div class="field">
+              <label for="topupNote">Catatan (opsional)</label>
+              <textarea id="topupNote" placeholder="Untuk catatan sendiri (tidak dikirim ke Atlantic)."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btnTopup">Kirim Order</button>
+            <div id="topupStatus" class="status"></div>
+          </div>
+        </div>
+      </form>
+      <pre id="topupResult" style="display:none;"></pre>
+    </div>
+  </section>
+
+  <!-- DEPOSIT -->
+  <section id="tab-deposit" class="section">
+    <h2 style="font-size:1.1rem;margin-bottom:.5rem;">Deposit Saldo</h2>
+    <p class="subtitle">
+      Menggunakan endpoint <code>/deposit/create</code> dan <code>/deposit/status</code>.
+      API key diambil dari <code>localStorage</code>.
+    </p>
+
+    <div class="card two-col">
+      <form id="depositForm">
+        <div class="field">
+          <label for="depNominal">Nominal Deposit</label>
+          <input id="depNominal" type="number" min="1000" step="1000" placeholder="contoh: 25000" required />
+        </div>
+        <div class="field">
+          <label for="depType">Type</label>
+          <select id="depType">
+            <option value="ewallet">ewallet</option>
+            <option value="bank">bank</option>
+            <option value="va">va</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="depMethod">Metode</label>
+          <select id="depMethod">
+            <option value="qris">qris</option>
+            <option value="dana">dana</option>
+            <option value="ovo">ovo</option>
+            <option value="gopay">gopay</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnDeposit">Buat Deposit</button>
+        <div id="depositStatus" class="status"></div>
+        <pre id="depositResult" style="display:none;"></pre>
+      </form>
+
+      <div class="qr-box">
+        <div>
+          <strong>QR / Link Pembayaran</strong>
+          <p class="subtitle" style="margin-top:.3rem;">
+            Jika response Atlantic berisi URL gambar QR atau link QRIS,
+            akan ditampilkan di sini.
+          </p>
+        </div>
+        <div id="qrContainer" style="margin-top:.4rem;">
+          <p class="status muted">Belum ada QR. Buat deposit terlebih dahulu.</p>
+        </div>
+        <div id="depositPoll" class="status muted" style="margin-top:.6rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATUS -->
+  <section id="tab-status" class="section">
+    <h2 style="font-size:1.1rem;margin-bottom:.5rem;">Cek Status Transaksi & Deposit</h2>
+    <div class="card two-col">
+      <div>
+        <h3 style="font-size:.95rem;margin-bottom:.4rem;">Status Transaksi</h3>
+        <p class="subtitle">Memanggil endpoint <code>/transaksi/status</code>.</p>
+        <form id="trxStatusForm">
+          <div class="field">
+            <label for="trxId">ID Transaksi Atlantic</label>
+            <input id="trxId" placeholder="ID transaksi dari response create" required />
+          </div>
+          <button type="submit" class="btn btn-primary" id="btnTrxStatus">Cek Status</button>
+          <div id="trxStatusMsg" class="status"></div>
+          <pre id="trxStatusResult" style="display:none;"></pre>
+        </form>
+      </div>
+      <div>
+        <h3 style="font-size:.95rem;margin-bottom:.4rem;">Status Deposit</h3>
+        <p class="subtitle">Memanggil endpoint <code>/deposit/status</code>.</p>
+        <form id="depStatusForm">
+          <div class="field">
+            <label for="depId">ID Deposit Atlantic</label>
+            <input id="depId" placeholder="ID dari response create deposit" required />
+          </div>
+          <button type="submit" class="btn btn-primary" id="btnDepStatus">Cek Status</button>
+          <div id="depStatusMsg" class="status"></div>
+          <pre id="depStatusResult" style="display:none;"></pre>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="tab-profile" class="section">
+    <h2 style="font-size:1.1rem;margin-bottom:.5rem;">Profil Akun Atlantic</h2>
+    <div class="card">
+      <p class="subtitle">
+        Endpoint <code>/get_profile</code> akan menampilkan informasi akun kamu:
+        nama, saldo, email, dan lainnya.
+      </p>
+      <button class="btn btn-primary" id="btnLoadProfile">Muat Profil</button>
+      <div id="profileStatus" class="status"></div>
+      <pre id="profileResult" style="display:none;"></pre>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © <span id="year"></span> Topup H2H Atlantic. Atur API key di <code>settings.html</code>.
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // TAB HANDLER
+  const navButtons = document.querySelectorAll("nav button[data-tab]");
+  const sections = document.querySelectorAll(".section");
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      navButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const tab = btn.dataset.tab;
+      sections.forEach(sec => {
+        sec.classList.toggle("active", sec.id === "tab-" + tab);
+      });
+    });
+  });
+
+  function getApiKey() {
+    return localStorage.getItem("ATLANTIC_API_KEY") || "";
+  }
+
+  // Helper call Atlantic directly from browser
+  async function callAtlantic(path, paramsObj, statusEl, resultPre) {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      statusEl.textContent = "API key belum diset. Buka settings.html terlebih dahulu.";
+      statusEl.className = "status err";
+      if (resultPre) { resultPre.style.display = "none"; resultPre.textContent = ""; }
+      return null;
+    }
+
+    statusEl.textContent = "Memproses...";
+    statusEl.className = "status muted";
+    if (resultPre) { resultPre.style.display = "none"; resultPre.textContent = ""; }
+
+    const params = new URLSearchParams();
+    params.append("api_key", apiKey);
+    Object.entries(paramsObj || {}).forEach(([k,v]) => {
+      if (v === undefined || v === null) return;
+      params.append(k, String(v));
+    });
+
+    try {
+      const res = await fetch("https://atlantich2h.com" + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.status === false || data.success === false) {
+        statusEl.textContent = data.message || "Gagal memproses permintaan.";
+        statusEl.className = "status err";
+      } else {
+        statusEl.textContent = data.message || "Berhasil.";
+        statusEl.className = "status ok";
+      }
+      if (resultPre) {
+        resultPre.style.display = "block";
+        resultPre.textContent = JSON.stringify(data, null, 2);
+      }
+      return data;
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = "Terjadi kesalahan jaringan / server.";
+      statusEl.className = "status err";
+      return null;
+    }
+  }
+
+  // LOAD PRODUCTS
+  async function loadProducts() {
+    const grid = document.getElementById("productsGrid");
+    try {
+      const res = await fetch("products.json");
+      const items = await res.json();
+      window.__ALL_PRODUCTS = items || [];
+      renderProducts("all");
+    } catch (e) {
+      grid.innerHTML = "<p style='color:#f97373;font-size:.9rem;'>Gagal memuat products.json.</p>";
+    }
+  }
+
+  function renderProducts(filter) {
+    const grid = document.getElementById("productsGrid");
+    const items = (window.__ALL_PRODUCTS || []).filter(p => {
+      if (!filter || filter === "all") return true;
+      if (!p.category) return false;
+      const cat = p.category.toLowerCase();
+      if (filter === "ewallet") return cat.includes("wallet");
+      if (filter === "pulsa") return cat.includes("pulsa") || cat.includes("data");
+      if (filter === "game") return cat.includes("game");
+      return true;
+    });
+
+    if (!items.length) {
+      grid.innerHTML = "<p style='color:var(--text-soft);font-size:.9rem;'>Tidak ada produk untuk filter ini.</p>";
+      return;
+    }
+
+    grid.innerHTML = "";
+    items.forEach(p => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "product-card";
+      card.innerHTML = `
+        <div class="product-title">${p.name}</div>
+        <div class="product-meta">${p.code} • ${p.category || "Produk"}</div>
+        <div class="price">Rp ${Number(p.price||0).toLocaleString("id-ID")}</div>
+        <div class="product-meta">Klik untuk isi form otomatis</div>
+      `;
+      card.addEventListener("click", () => {
+        document.getElementById("topupCode").value = p.code;
+        document.getElementById("tab-topup").scrollIntoView({behavior:"smooth"});
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  loadProducts();
+  document.getElementById("productFilters").addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    document.querySelectorAll("#productFilters button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderProducts(btn.dataset.filter);
+  });
+
+  // TOPUP FORM
+  document.getElementById("topupForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const code = document.getElementById("topupCode").value.trim();
+    const target = document.getElementById("topupTarget").value.trim();
+    let reff = document.getElementById("topupReff").value.trim();
+    if (!reff) reff = "WEB" + Date.now();
+    const statusEl = document.getElementById("topupStatus");
+    const pre = document.getElementById("topupResult");
+    const btn = document.getElementById("btnTopup");
+    btn.disabled = true;
+    await callAtlantic("/transaksi/create", { code, target, reff_id: reff }, statusEl, pre);
+    btn.disabled = false;
+  });
+
+  // DEPOSIT FORM
+  let lastDepositId = null;
+  let pollTimer = null;
+
+  async function pollDepositStatus() {
+    if (!lastDepositId) return;
+    const infoEl = document.getElementById("depositPoll");
+    const res = await callAtlantic("/deposit/status", { id: lastDepositId }, infoEl, null);
+    if (res && res.data && res.data.status) {
+      const s = String(res.data.status).toLowerCase();
+      if (s === "success" || s === "paid") {
+        infoEl.textContent = "Deposit berhasil / success.";
+        infoEl.className = "status ok";
+        clearInterval(pollTimer);
+        pollTimer = null;
+      } else if (s === "cancel" || s === "failed") {
+        infoEl.textContent = "Deposit gagal / dibatalkan.";
+        infoEl.className = "status err";
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+    }
+  }
+
+  document.getElementById("depositForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const nominal = Number(document.getElementById("depNominal").value);
+    const type = document.getElementById("depType").value;
+    const metode = document.getElementById("depMethod").value;
+    const statusEl = document.getElementById("depositStatus");
+    const pre = document.getElementById("depositResult");
+    const btn = document.getElementById("btnDeposit");
+    btn.disabled = true;
+    const reff = "DEP" + Date.now();
+    const data = await callAtlantic("/deposit/create", { ref_id: reff, nominal, type, metode }, statusEl, pre);
+    btn.disabled = false;
+
+    const qrBox = document.getElementById("qrContainer");
+    qrBox.innerHTML = "";
+    lastDepositId = null;
+    if (data && data.data) {
+      lastDepositId = data.data.id || data.data.deposit_id || null;
+      const qrUrl = data.data.qris_image || data.data.qr_url || data.data.qr || data.data.qris_url || null;
+      if (qrUrl) {
+        const img = document.createElement("img");
+        img.src = qrUrl;
+        img.alt = "QR Pembayaran";
+        qrBox.appendChild(img);
+        const a = document.createElement("a");
+        a.href = qrUrl;
+        a.target = "_blank";
+        a.textContent = "Buka link QR di tab baru";
+        a.style.display = "block";
+        a.style.marginTop = ".5rem";
+        a.style.fontSize = ".8rem";
+        qrBox.appendChild(a);
+      } else {
+        const p = document.createElement("p");
+        p.textContent = "Deposit dibuat, tapi field QR tidak ditemukan. Lihat JSON di bawah.";
+        p.className = "status muted";
+        qrBox.appendChild(p);
+      }
+    } else {
+      qrBox.innerHTML = "<p class='status err'>Gagal membuat deposit.</p>";
+    }
+
+    if (pollTimer) clearInterval(pollTimer);
+    if (lastDepositId) {
+      pollTimer = setInterval(pollDepositStatus, 8000);
+      document.getElementById("depositPoll").textContent = "Menunggu pembayaran... status akan dicek berkala.";
+      document.getElementById("depositPoll").className = "status muted";
+    }
+  });
+
+  // STATUS FORMS
+  document.getElementById("trxStatusForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const id = document.getElementById("trxId").value.trim();
+    const statusEl = document.getElementById("trxStatusMsg");
+    const pre = document.getElementById("trxStatusResult");
+    const btn = document.getElementById("btnTrxStatus");
+    btn.disabled = true;
+    await callAtlantic("/transaksi/status", { id }, statusEl, pre);
+    btn.disabled = false;
+  });
+
+  document.getElementById("depStatusForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const id = document.getElementById("depId").value.trim();
+    const statusEl = document.getElementById("depStatusMsg");
+    const pre = document.getElementById("depStatusResult");
+    const btn = document.getElementById("btnDepStatus");
+    btn.disabled = true;
+    await callAtlantic("/deposit/status", { id }, statusEl, pre);
+    btn.disabled = false;
+  });
+
+  // PROFILE
+  document.getElementById("btnLoadProfile").addEventListener("click", async () => {
+    const statusEl = document.getElementById("profileStatus");
+    const pre = document.getElementById("profileResult");
+    await callAtlantic("/get_profile", {}, statusEl, pre);
+  });
+</script>
+</body>
+</html>

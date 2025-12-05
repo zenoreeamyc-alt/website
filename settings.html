@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings API Key Atlantic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+    body{background:#020617;color:#e5e7eb;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+    .card{background:#0f172a;border-radius:1rem;border:1px solid rgba(148,163,184,.4);padding:1.5rem;max-width:420px;width:100%;}
+    h1{font-size:1.2rem;margin-bottom:.4rem;}
+    p{font-size:.85rem;color:#9ca3af;margin-bottom:1rem;line-height:1.5;}
+    label{display:block;font-size:.8rem;margin-bottom:.25rem;color:#9ca3af;}
+    input{width:100%;padding:.55rem .7rem;border-radius:.55rem;border:1px solid rgba(148,163,184,.5);background:#020617;color:#e5e7eb;font-size:.9rem;}
+    input::placeholder{color:rgba(148,163,184,.7);}
+    button{margin-top:.9rem;width:100%;padding:.6rem 1rem;border-radius:.7rem;border:none;background:#38bdf8;color:#020617;font-weight:600;cursor:pointer;font-size:.9rem;}
+    button:disabled{opacity:.6;cursor:not-allowed;}
+    .status{margin-top:.6rem;font-size:.8rem;min-height:1.1rem;}
+    .ok{color:#4ade80;}
+    .err{color:#f97373;}
+    .muted{color:#9ca3af;}
+    code{background:#020617;border-radius:.3rem;padding:.1rem .3rem;font-size:.78rem;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Pengaturan API Key Atlantic</h1>
+    <p>
+      Masukkan <code>API Key Atlantic</code> kamu di sini. Kunci ini akan disimpan
+      secara lokal di browser (<code>localStorage</code>) dan digunakan oleh
+      <code>index.html</code> untuk mengirim request ke Atlantic.
+    </p>
+    <label for="keyInput">API Key Atlantic</label>
+    <input id="keyInput" placeholder="contoh: B7JfJPPZHa6V4oQ..." />
+    <button id="saveBtn">Simpan</button>
+    <div id="status" class="status"></div>
+    <p style="margin-top:1rem;font-size:.8rem;color:#9ca3af;">
+      Setelah berhasil disimpan, buka halaman <code>index.html</code> dan coba fitur
+      seperti <strong>Topup</strong> atau <strong>Profil</strong>.
+    </p>
+  </div>
+<script>
+  const input = document.getElementById('keyInput');
+  const statusEl = document.getElementById('status');
+  const btn = document.getElementById('saveBtn');
+
+  // load existing key if any
+  const existing = localStorage.getItem('ATLANTIC_API_KEY') || "";
+  if (existing) {
+    input.value = existing;
+    statusEl.textContent = "API key sudah tersimpan. Kamu bisa menggantinya.";
+    statusEl.className = "status muted";
+  }
+
+  btn.addEventListener('click', () => {
+    const v = input.value.trim();
+    if (!v) {
+      statusEl.textContent = "API key tidak boleh kosong.";
+      statusEl.className = "status err";
+      return;
+    }
+    localStorage.setItem('ATLANTIC_API_KEY', v);
+    statusEl.textContent = "API key berhasil disimpan di browser.";
+    statusEl.className = "status ok";
+  });
+</script>
+</body>
+</html>

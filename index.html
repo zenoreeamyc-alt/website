@@ -1,40 +1,69 @@
-<!DOCTYPE html>
+===== index.html START =====
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Topup H2H Atlantic - Dashboard Sederhana</title>
-  <meta name="description" content="Website topup H2H Atlantic dengan deposit, status, dan profil. API key diatur lewat settings.html." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZyrooNour — Personal Website</title>
+  <meta name="description" content="Website perkenalan diri ZyrooNour." />
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
-    :root{
-      --bg:#020617;--bg-soft:#020617;
-      --card:#0f172a;
-      --accent:#38bdf8;--accent-soft:rgba(56,189,248,.12);
-      --danger:#f97373;
-      --success:#4ade80;
-      --text:#e5e7eb;--text-soft:#9ca3af;
-      --border:rgba(148,163,184,.35);
-    }
-    body{background:radial-gradient(circle at top,rgba(56,189,248,.18),transparent 60%),var(--bg-soft);color:var(--text);min-height:100vh;}
-    .container{max-width:1200px;margin:auto;padding:0 1.3rem;}
-    header{position:sticky;top:0;z-index:20;background:rgba(15,23,42,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;}
-    .logo{font-weight:700;font-size:1.3rem;letter-spacing:.04em;}
-    .logo span{color:var(--accent);}
-    nav{display:flex;gap:.7rem;font-size:.85rem;}
-    nav button{background:transparent;border:none;color:var(--text-soft);padding:.4rem .8rem;border-radius:999px;cursor:pointer;}
-    nav button.active{background:var(--accent-soft);color:var(--accent);}
-    main{padding:2.4rem 0 1.5rem;}
-    .section{display:none;}
-    .section.active{display:block;}
-    h1{font-size:1.7rem;margin-bottom:.5rem;}
-    .lead{color:var(--text-soft);max-width:640px;font-size:.9rem;line-height:1.6;}
-    .hero-grid{display:grid;gap:1.6rem;margin-top:1.8rem;}
-    .card{background:var(--card);border-radius:1rem;border:1px solid var(--border);padding:1.3rem;}
-    .pill{display:inline-flex;align-items:center;font-size:.7rem;border-radius:999px;padding:.25rem .6rem;border:1px solid var(--border);color:var(--text-soft);gap:.35rem;margin-bottom:.9rem;}
-    .pill span{width:.35rem;height:.35rem;border-radius:999px;background:#22c55e;}
-    .grid{display:grid;gap:1rem;}
+    body{margin:0;font-family:Arial,system-ui;background:#0b1220;color:#e7eefc}
+    a{color:#7aa2ff;text-decoration:none}
+    .wrap{max-width:800px;margin:auto;padding:24px}
+    .card{background:#111a2e;border-radius:14px;padding:18px;margin-bottom:16px}
+    h1,h2{margin-top:0}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:#1b2a4a;color:#fff;margin-right:8px;cursor:pointer}
+    .footer{text-align:center;font-size:12px;opacity:.7}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Halo, saya ZyrooNour 👋</h1>
+    <p>Website perkenalan diri sederhana.</p>
+    <div>
+      <span class="btn" onclick="copyEmail()">Salin Email</span>
+      <a class="btn" id="downloadCV" download="CV-ZyrooNour.txt">Download CV</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Informasi</h2>
+    <p><b>Nama:</b> ZyrooNour</p>
+    <p><b>Domisili:</b> Manado / Indonesia</p>
+    <p><b>Email:</b> zenoreamyc@gmail.com</p>
+    <p><b>WhatsApp:</b> +6285189656447</p>
+    <p><b>GitHub:</b> <a href="https://github.com/caevzz" target="_blank">github.com/caevzz</a></p>
+  </div>
+
+  <div class="footer">© <span id="year"></span> ZyrooNour</div>
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function copyEmail(){
+  navigator.clipboard.writeText("zenoreamyc@gmail.com");
+  alert("Email berhasil disalin");
+}
+
+const cvText = `CV ZyrooNour
+
+Domisili:
+Manado / Indonesia
+
+Kontak:
+Email: zenoreamyc@gmail.com
+WhatsApp: +6285189656447
+GitHub: https://github.com/caevzz
+`;
+
+document.getElementById("downloadCV").href =
+  URL.createObjectURL(new Blob([cvText], {type:"text/plain"}));
+</script>
+</body>
+</html>
+===== index.html END =====    .grid{display:grid;gap:1rem;}
     .products-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:1rem;}
     .product-card{cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;border-radius:1rem;border:1px solid var(--border);background:var(--card);padding:1rem;text-align:left;}
     .product-card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(15,23,42,.8);}

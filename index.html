@@ -1,558 +1,286 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ZyrooNour</title>
-  <meta name="description" content="ZyrooNour profile page." />
+
+  <meta name="theme-color" content="#0b0f1a" id="themeColor"/>
 
   <style>
     :root{
-      --bg:#0b0c10;
-      --card:#e9eaec;
-      --card2:#f2f3f5;
-      --text:#101318;
-      --muted:#5b616b;
-      --line:rgba(10,12,16,.12);
-      --shadow: 0 18px 40px rgba(0,0,0,.30);
-      --r:18px;
-
-      --blue:#2f80ff;
-      --green:#22c55e;
-      --purple:#a855f7;
-
-      --p1:#dbeafe;
-      --p2:#ede9fe;
-      --p3:#fde2e2;
-      --p4:#dcfce7;
-      --p5:#fef3c7;
-
-      --nightCard: rgba(18,22,32,.82);
-      --nightCard2: rgba(18,22,32,.70);
-      --nightText:#eef2ff;
-      --nightMuted:rgba(238,242,255,.72);
-      --nightLine:rgba(255,255,255,.12);
-      --nightShadow: 0 18px 50px rgba(0,0,0,.45);
+      --bg:#0b0f1a;
+      --card:rgba(18,22,32,.78);
+      --card-light:#e9eaec;
+      --sub:rgba(238,242,255,.72);
+      --border:rgba(255,255,255,.12);
+      --radius:22px;
     }
 
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x:hidden;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 600px at 50% -200px,#16224a,#060912 70%);
+      color:#eef2ff;
+      transition:.25s;
     }
+
+    body.day{
+      background:#dfe1e5;
+      color:#111;
+    }
+
     a{color:inherit;text-decoration:none}
 
-    /* ===== Background (mirip: gambar gelap + vignette) ===== */
-    .bg{
-      position:fixed; inset:0; z-index:-2;
-      background:
-        radial-gradient(900px 500px at 50% 0%, rgba(255,255,255,.08), transparent 60%),
-        radial-gradient(900px 500px at 50% 100%, rgba(255,255,255,.06), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.70)),
-        url("https://images.unsplash.com/photo-1520975958225-9bcd31b4a020?auto=format&fit=crop&w=1400&q=70");
-      background-size: cover;
-      background-position: center;
-      filter: saturate(1.0) contrast(1.05) brightness(.55);
-      transform: scale(1.03);
-    }
-    .vignette{
-      position:fixed; inset:0; z-index:-1;
-      background:
-        radial-gradient(1200px 650px at 50% 40%, transparent 35%, rgba(0,0,0,.70) 85%),
-        radial-gradient(900px 500px at 50% 110%, rgba(0,0,0,.85), transparent 55%);
+    .wrap{
+      max-width:720px;
+      margin:auto;
+      padding:16px;
     }
 
-    .wrap{max-width:720px;margin:0 auto;padding:16px 12px 80px}
-
-    /* ===== Generic card ===== */
     .card{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .section{padding:14px}
-    .h2{
-      font-size:22px;
-      font-weight:900;
-      margin:0 0 10px;
-      color:rgba(15,18,24,.78);
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:16px;
+      margin-bottom:16px;
+      box-shadow:0 20px 40px rgba(0,0,0,.45);
+      transition:.25s;
     }
 
-    /* ===== Profile card ===== */
-    .profileCard{
-      margin-top:170px; /* biar card muncul “di bawah” background */
-      position:relative;
+    body.day .card{
+      background:var(--card-light);
+      border-color:rgba(0,0,0,.12);
+      box-shadow:0 16px 32px rgba(0,0,0,.25);
     }
-    .avatar{
-      width:92px;height:92px;border-radius:999px;
-      border:6px solid var(--card);
-      background:
-        url("https://i.imgur.com/7D7I6dI.png");
-      background-size: cover;
-      background-position:center;
-      position:absolute;
-      left:50%;
-      top:-46px;
-      transform:translateX(-50%);
-      box-shadow: 0 14px 26px rgba(0,0,0,.25);
-    }
-    .profileInner{
-      padding:56px 18px 18px;
+
+    .profile{
       text-align:center;
     }
-    .nameRow{
-      display:inline-flex;gap:10px;align-items:center;justify-content:center;
-      flex-wrap:wrap;
-    }
-    .name{
-      font-size:34px;
-      letter-spacing:-.6px;
-      margin:0;
-      font-weight:950;
-    }
-    .verified{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:22px;height:22px;border-radius:999px;
-      background: var(--blue);
+
+    .avatar{
+      width:110px;height:110px;
+      border-radius:50%;
+      margin:auto;
+      background:linear-gradient(135deg,#3b82f6,#9333ea);
+      display:grid;place-items:center;
+      font-size:42px;font-weight:700;
       color:white;
-      font-weight:900;
-      font-size:14px;
-      line-height:1;
-      transform: translateY(2px);
-    }
-    .bio{
-      margin:6px 0 0;
-      color: var(--muted);
-      font-size:15px;
-      line-height:1.45;
     }
 
-    .tagRow{
-      margin-top:14px;
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
+    h1{margin:12px 0 6px}
+    .bio{color:var(--sub);font-size:.95rem}
+
+    body.day .bio{color:#555}
+
+    .tags{
+      display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+      margin-top:10px;
     }
     .tag{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      background: rgba(255,255,255,.55);
-      border:1px solid rgba(0,0,0,.06);
-      font-weight:900;
-      color: rgba(20,24,30,.85);
-      box-shadow: 0 10px 18px rgba(0,0,0,.10);
-    }
-    .tag .ico{width:18px;height:18px;display:inline-block}
-    .tag.coder .pill{background:rgba(47,128,255,.15); color:var(--blue); border-color:rgba(47,128,255,.25)}
-    .tag.game  .pill{background:rgba(34,197,94,.15); color:var(--green); border-color:rgba(34,197,94,.25)}
-    .tag.music .pill{background:rgba(168,85,247,.15); color:var(--purple); border-color:rgba(168,85,247,.25)}
-    .pill{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:28px;height:28px;border-radius:10px;
-      border:1px solid rgba(0,0,0,.06);
+      padding:6px 12px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--border);
+      font-size:.85rem;
     }
 
-    .socialRow{
-      margin-top:14px;
-      display:flex;gap:14px;
-      justify-content:center;
-      align-items:center;
+    body.day .tag{
+      background:#f2f3f5;border-color:#ccc;
     }
-    .socialBtn{
-      width:44px;height:44px;border-radius:999px;
+
+    .socials{
+      display:flex;gap:10px;justify-content:center;margin-top:12px;
+    }
+    .social{
+      width:42px;height:42px;border-radius:12px;
+      background:rgba(255,255,255,.08);
       display:grid;place-items:center;
-      background: rgba(255,255,255,.45);
-      border:1px solid rgba(0,0,0,.06);
-      transition:.15s transform ease, .15s background ease;
-    }
-    .socialBtn:hover{transform: translateY(-2px); background: rgba(255,255,255,.70)}
-    .socialBtn svg{width:20px;height:20px;opacity:.85}
-
-    /* ===== Spotify ===== */
-    .spotifyHead{
-      text-align:center;
+      border:1px solid var(--border);
       font-size:18px;
-      font-weight:900;
-      color: rgba(15,18,24,.72);
-      margin:2px 0 12px;
-    }
-    .spotifyBox{
-      background: var(--card2);
-      border: 1px solid rgba(0,0,0,.08);
-      border-radius: 18px;
-      padding: 10px;
-      overflow:hidden;
-    }
-    .spotifyBox iframe{
-      width:100%;
-      height: 152px;
-      border:0;
-      border-radius: 14px;
     }
 
-    /* ===== Navigation list ===== */
-    .list{display:grid;gap:12px}
-    .item{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:14px 14px;
-      border-radius:18px;
-      background: var(--card2);
-      border:1px solid rgba(0,0,0,.08);
-      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+    .section-title{
+      margin:4px 0 12px;
+      opacity:.75;
+      font-weight:600;
     }
-    .left{
+
+    .nav-item{
       display:flex;align-items:center;gap:12px;
-      min-width:0;
+      padding:14px;border-radius:16px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      margin-bottom:10px;
     }
-    .iconSquare{
-      width:44px;height:44px;border-radius:14px;
+
+    body.day .nav-item{
+      background:#f4f5f7;
+      border-color:#ccc;
+    }
+
+    .icon{
+      width:40px;height:40px;border-radius:12px;
       display:grid;place-items:center;
-      border:1px solid rgba(0,0,0,.06);
-      flex:0 0 auto;
-    }
-    .title{
-      font-weight:950;
+      background:rgba(255,255,255,.15);
       font-size:18px;
-      margin:0;
-    }
-    .desc{
-      margin-top:2px;
-      color: var(--muted);
-      font-size:14px;
-    }
-    .arrow{
-      font-size:26px;
-      color: rgba(0,0,0,.35);
-      padding-left:6px;
-      flex:0 0 auto;
     }
 
-    /* ===== Community ===== */
-    .communityGrid{display:grid;gap:12px}
-    .communityItem .arrow{transform: rotate(90deg); font-size:22px}
-
-    /* ===== Slide Anime (gambar besar) ===== */
-    .slideBox{
-      background: var(--card2);
-      border:1px solid rgba(0,0,0,.08);
-      border-radius: 18px;
-      padding: 10px;
-      overflow:hidden;
-      box-shadow: 0 10px 18px rgba(0,0,0,.10);
-    }
-    .slideImg{
+    iframe{
       width:100%;
-      height: 190px;
-      border-radius: 14px;
-      object-fit: cover;
-      display:block;
-    }
-
-    /* ===== Cbox/embed area ===== */
-    .embedBox{
-      background: var(--card2);
-      border:1px solid rgba(0,0,0,.08);
-      border-radius: 18px;
-      overflow:hidden;
-      box-shadow: 0 10px 18px rgba(0,0,0,.10);
-    }
-    .embedHead{
-      padding:10px 12px;
-      color: rgba(15,18,24,.70);
-      font-weight:900;
-      text-align:center;
-    }
-    .embedFrame{
-      width:100%;
-      height: 360px;
       border:0;
-      display:block;
-      background:white;
+      border-radius:16px;
     }
 
-    /* ===== Footer ===== */
-    .footer{
+    footer{
       text-align:center;
-      margin-top:16px;
-      color: rgba(255,255,255,.65);
-      font-size:12px;
-      padding-bottom:12px;
+      opacity:.6;
+      font-size:.8rem;
+      margin:20px 0;
     }
 
-    /* ===== Floating theme button ===== */
+    /* FAB */
     .fab{
       position:fixed;
       right:16px;
       bottom:16px;
-      width:54px;height:54px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(14,18,26,.35);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      width:54px;height:54px;
+      border-radius:50%;
+      background:rgba(18,22,32,.6);
+      border:1px solid var(--border);
       display:grid;place-items:center;
+      font-size:22px;
       cursor:pointer;
-      user-select:none;
+      backdrop-filter:blur(10px);
     }
-    .fab svg{width:22px;height:22px;opacity:.9;color:white}
 
-    /* ===== Night mode (seperti tombol bulan) ===== */
-    body.night{
-      color: var(--nightText);
-    }
-    body.night .card{
-      background: var(--nightCard);
-      border-color: var(--nightLine);
-      box-shadow: var(--nightShadow);
-    }
-    body.night .avatar{
-      border-color: rgba(18,22,32,.95);
-    }
-    body.night .bio{color: var(--nightMuted)}
-    body.night .h2,
-    body.night .spotifyHead{color: rgba(238,242,255,.70)}
-    body.night .spotifyBox,
-    body.night .item,
-    body.night .slideBox,
-    body.night .embedBox{
-      background: var(--nightCard2);
-      border-color: var(--nightLine);
-      box-shadow: var(--nightShadow);
-    }
-    body.night .desc{color: var(--nightMuted)}
-    body.night .arrow{color: rgba(238,242,255,.35)}
-    body.night .socialBtn{
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,255,255,.14);
-    }
-    body.night .socialBtn svg{opacity:.95}
-    body.night .tag{
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,255,255,.14);
-      color: rgba(238,242,255,.90);
+    body.day .fab{
+      background:white;
+      border-color:#ccc;
     }
   </style>
 </head>
 
 <body class="night">
-  <div class="bg"></div>
-  <div class="vignette"></div>
-
   <div class="wrap">
 
     <!-- PROFILE -->
-    <div class="card profileCard">
-      <div class="avatar" title="Profile picture"></div>
-      <div class="profileInner">
-        <div class="nameRow">
-          <h1 class="name">ZyrooNour</h1>
-          <span class="verified" title="Verified">✓</span>
-        </div>
-        <div class="bio">Saya newbie yang suka ngulik web & project kecil.</div>
+    <div class="card profile" id="home">
+      <div class="avatar">Z</div>
+      <h1>ZyrooNour</h1>
+      <div class="bio">Saya newbie yang suka ngulik web & project kecil.</div>
 
-        <div class="tagRow">
-          <span class="tag coder">
-            <span class="pill" style="background:rgba(47,128,255,.15);border:1px solid rgba(47,128,255,.25);color:var(--blue)">
-              <!-- code icon -->
-              <svg class="ico" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8.7 16.7 4 12l4.7-4.7 1.4 1.4L6.8 12l3.3 3.3-1.4 1.4zm6.6 0-1.4-1.4L17.2 12l-3.3-3.3 1.4-1.4L20 12l-4.7 4.7z"/>
-              </svg>
-            </span>
-            Coder
-          </span>
-
-          <span class="tag game">
-            <span class="pill" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.25);color:var(--green)">
-              <!-- gamepad -->
-              <svg class="ico" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 9h10a4 4 0 0 1 4 4v2a4 4 0 0 1-4 4h-1l-2-2H10l-2 2H7a4 4 0 0 1-4-4v-2a4 4 0 0 1 4-4zm2.25 3.5H7.75V11h-1.5v1.5H4.75V14h1.5v1.5h1.5V14h1.5v-1.5zm8.75-.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm2 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-              </svg>
-            </span>
-            Game
-          </span>
-
-          <span class="tag music">
-            <span class="pill" style="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.25);color:var(--purple)">
-              <!-- music -->
-              <svg class="ico" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3v12.3a3.7 3.7 0 1 1-2-3.3V7H9v9.3A3.7 3.7 0 1 1 7 13V5h12V3z"/>
-              </svg>
-            </span>
-            Music
-          </span>
-        </div>
-
-        <div class="socialRow">
-          <a class="socialBtn" href="https://github.com/caevzz" target="_blank" rel="noreferrer" title="GitHub">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.4.7-4.1-1.5-4.1-1.5-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.4 3.6 1.1.1-.8.4-1.4.7-1.7-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 0 1 1.3-3.3c-.1-.3-.6-1.6.1-3.3 0 0 1-.3 3.4 1.3a11.7 11.7 0 0 1 6.2 0C17.6 4 18.6 4.3 18.6 4.3c.7 1.7.2 3 .1 3.3A4.7 4.7 0 0 1 20 11c0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
-          </a>
-          <a class="socialBtn" href="https://youtube.com" target="_blank" rel="noreferrer" title="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L16 12l-6.4 3.6z"/></svg>
-          </a>
-          <a class="socialBtn" href="https://t.me/" target="_blank" rel="noreferrer" title="Telegram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 3.1 2.9 10.7c-1 .4-1 1.2-.2 1.4l4.9 1.5 1.9 5.9c.2.6.4.7.8.7.3 0 .5-.1.7-.3l2.8-2.7 5.8 4.3c1 .6 1.6.3 1.9-.9L23.9 4c.3-1.4-.5-2-1.9-1zM9.8 13.2l9.6-6c.5-.3 1-.1.6.3l-7.8 7.1-.3 3.6-1.8-5z"/></svg>
-          </a>
-          <a class="socialBtn" href="https://wa.me/6285189656447" target="_blank" rel="noreferrer" title="WhatsApp">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 2.8 17.7L2 22l4.4-1.1A11 11 0 0 0 20.5 3.5zm-8.6 18a9 9 0 0 1-4.6-1.3l-.3-.2-2.6.7.7-2.5-.2-.3A9 9 0 1 1 11.9 21.5zm5.1-6.6c-.3-.1-1.7-.8-2-1s-.5-.1-.7.1l-.8 1c-.2.2-.4.2-.7.1a7.4 7.4 0 0 1-2.2-1.4 8.3 8.3 0 0 1-1.5-1.9c-.2-.3 0-.5.1-.7l.6-.7c.2-.2.2-.4.1-.6l-1-2.3c-.1-.3-.3-.3-.6-.3h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 5 4.2.7.3 1.3.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4 0-.2-.2-.2-.4-.3z"/></svg>
-          </a>
-        </div>
+      <div class="tags">
+        <div class="tag">Coder</div>
+        <div class="tag">Game</div>
+        <div class="tag">Music</div>
       </div>
-    </div>
 
-    <!-- SPOTIFY -->
-    <div class="card section" style="margin-top:14px;">
-      <div class="spotifyHead">Spotify Playlist</div>
-      <div class="spotifyBox">
-        <!-- GANTI link embed Spotify di src ini -->
-        <iframe
-          src="https://open.spotify.com/embed/track/5ZYgA1mEoJvWgY0YqZ0cXv?utm_source=generator"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy">
-        </iframe>
+      <div class="socials">
+        <a class="social" href="https://github.com/caevzz" target="_blank">🐙</a>
+        <a class="social" href="https://wa.me/6285189656447" target="_blank">💬</a>
       </div>
     </div>
 
     <!-- NAVIGATION -->
-    <div class="section" style="padding:16px 2px 0;">
-      <div class="h2" style="padding:0 10px 10px;">Navigation</div>
+    <div class="card">
+      <div class="section-title">Navigation</div>
 
-      <div class="list" style="padding:0 10px;">
-        <a class="item" href="#contact">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p1)"><span style="font-size:20px">✉️</span></div>
-            <div>
-              <div class="title">Contact</div>
-              <div class="desc">Contact Help Center</div>
-            </div>
-          </div>
-          <div class="arrow">›</div>
-        </a>
+      <a href="#contact" class="nav-item">
+        <div class="icon">✉️</div>
+        <div>
+          <strong>Contact</strong><br>
+          <small>Informasi tentang saya</small>
+        </div>
+      </a>
 
-        <a class="item" href="#produk">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p2)"><span style="font-size:20px">🛍️</span></div>
-            <div>
-              <div class="title">Produk</div>
-              <div class="desc">View available products</div>
-            </div>
-          </div>
-          <div class="arrow">›</div>
-        </a>
+      <a href="#produk" class="nav-item">
+        <div class="icon">🛍️</div>
+        <div>
+          <strong>Produk</strong><br>
+          <small>Project & karya</small>
+        </div>
+      </a>
 
-        <a class="item" href="#tools">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p3)"><span style="font-size:20px">🛠️</span></div>
-            <div>
-              <div class="title">Tools</div>
-              <div class="desc">Free Downloader & Web Utilities</div>
-            </div>
-          </div>
-          <div class="arrow">›</div>
-        </a>
+      <a href="#tools" class="nav-item">
+        <div class="icon">🛠️</div>
+        <div>
+          <strong>Tools</strong><br>
+          <small>Web utilities</small>
+        </div>
+      </a>
 
-        <a class="item" href="#script">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p4)"><span style="font-size:20px">⌘</span></div>
-            <div>
-              <div class="title">Gudang Script</div>
-              <div class="desc">Free script warehouse</div>
-            </div>
-          </div>
-          <div class="arrow">›</div>
-        </a>
+      <a href="#donasi" class="nav-item">
+        <div class="icon">🙏</div>
+        <div>
+          <strong>Donasi</strong><br>
+          <small>Dukungan sukarela</small>
+        </div>
+      </a>
 
-        <a class="item" href="#donasi">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p5)"><span style="font-size:20px">🤲</span></div>
-            <div>
-              <div class="title">Donasi</div>
-              <div class="desc">Support our project voluntarily</div>
-            </div>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-      </div>
+      <a href="#chat" class="nav-item">
+        <div class="icon">💬</div>
+        <div>
+          <strong>Grup Chat</strong><br>
+          <small>Diskusi & sharing</small>
+        </div>
+      </a>
     </div>
 
-    <!-- COMMUNITY -->
-    <div class="section" style="padding:16px 2px 0;">
-      <div class="h2" style="padding:0 10px 10px;">Community</div>
-
-      <div class="communityGrid" style="padding:0 10px;">
-        <a class="item communityItem" href="https://chat.whatsapp.com/" target="_blank" rel="noreferrer">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p4)"><span style="font-size:20px">💬</span></div>
-            <div>
-              <div class="title">Grup Chat</div>
-              <div class="desc">Gabung ke grup support & sharing</div>
-            </div>
-          </div>
-          <div class="arrow">⌄</div>
-        </a>
-
-        <a class="item communityItem" href="https://t.me/" target="_blank" rel="noreferrer">
-          <div class="left">
-            <div class="iconSquare" style="background:var(--p1)"><span style="font-size:20px">📣</span></div>
-            <div>
-              <div class="title">Channel Info</div>
-              <div class="desc">Dapatkan notifikasi update penting</div>
-            </div>
-          </div>
-          <div class="arrow">⌄</div>
-        </a>
-      </div>
+    <!-- CONTACT -->
+    <div class="card" id="contact">
+      <div class="section-title">Contact</div>
+      Email: zenoreamyc@gmail.com<br>
+      WhatsApp: +6285189656447<br>
+      GitHub: github.com/caevzz
     </div>
 
-    <!-- SLIDE ANIME -->
-    <div class="card section" style="margin-top:14px;">
-      <div class="h2" style="margin-bottom:12px;">Slide Anime</div>
-      <div class="slideBox">
-        <!-- GANTI URL gambar anime kamu -->
-        <img class="slideImg" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1400&q=70" alt="Slide Anime" />
-      </div>
+    <!-- PRODUK -->
+    <div class="card" id="produk">
+      <div class="section-title">Produk</div>
+      Project pribadi & eksperimen web.
     </div>
 
-    <!-- CHATBOX / CBOX (opsional) -->
-    <div class="card section" style="margin-top:14px;">
-      <div class="embedBox">
-        <div class="embedHead">@ZyrooNour</div>
-
-        <!--
-          Ini contoh embed.
-          Kalau kamu punya link embed Cbox / Shoutbox, ganti src di bawah.
-        -->
-        <iframe class="embedFrame" src="about:blank" title="Chatbox"></iframe>
-      </div>
+    <!-- TOOLS -->
+    <div class="card" id="tools">
+      <div class="section-title">Tools</div>
+      Downloader & web utilities (coming soon).
     </div>
 
-    <div class="footer">© <span id="y"></span> ZyrooNour. All rights reserved.</div>
+    <!-- DONASI -->
+    <div class="card" id="donasi">
+      <div class="section-title">Donasi</div>
+      Support project secara sukarela.
+    </div>
+
+    <!-- CHAT -->
+    <div class="card" id="chat">
+      <div class="section-title">Grup Chat</div>
+      <iframe
+        src="https://www3.cbox.ws/box/?boxid=3550944&boxtag=FnAAxT"
+        height="420"
+        scrolling="no"
+        loading="lazy"
+        referrerpolicy="no-referrer">
+      </iframe>
+    </div>
+
+    <footer>© 2025 ZyrooNour</footer>
   </div>
 
-  <!-- Tombol bulan (night/day) -->
-  <div class="fab" id="toggle" title="Toggle theme">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"/></svg>
-  </div>
+  <!-- THEME TOGGLE -->
+  <div class="fab" id="toggle">🌙</div>
 
   <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-
-    const KEY="zyroo_theme";
     const btn=document.getElementById("toggle");
-    function setTheme(v){
-      document.body.classList.toggle("night", v==="night");
-      localStorage.setItem(KEY, v);
-    }
-    setTheme(localStorage.getItem(KEY) || "night");
-    btn.addEventListener("click", ()=>{
-      const now = document.body.classList.contains("night") ? "day" : "night";
-      setTheme(now);
-    });
+    const theme=document.getElementById("themeColor");
+
+    btn.onclick=()=>{
+      document.body.classList.toggle("day");
+      const isDay=document.body.classList.contains("day");
+      btn.textContent=isDay?"☀️":"🌙";
+      theme.content=isDay?"#e9eaec":"#0b0f1a";
+    };
   </script>
 </body>
 </html>

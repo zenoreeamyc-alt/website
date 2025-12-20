@@ -1,0 +1,29 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/kontak",
+      "destination": "/kontak.html"
+    },
+    {
+      "source": "/produk",
+      "destination": "/produk.html"
+    },
+    {
+      "source": "/tools",
+      "destination": "/tools.html"
+    },
+    {
+      "source": "/donasi",
+      "destination": "/donasi.html"
+    },
+    {
+      "source": "/chat",
+      "destination": "/chat.html"
+    }
+  ]
+}

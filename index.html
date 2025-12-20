@@ -1,286 +1,203 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZyrooNour</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZyrooNour</title>
+<meta id="themeColor" name="theme-color" content="#070812">
 
-  <meta name="theme-color" content="#0b0f1a" id="themeColor"/>
+<style>
+:root{
+  --bg:#070812;
+  --fg:#eef2ff;
+  --muted:#b5b9ff;
+  --glass:rgba(20,24,40,.55);
+  --border:rgba(255,255,255,.14);
+  --radius:22px;
+  --shadow:0 22px 50px rgba(0,0,0,.55);
+}
+body.day{
+  --bg:#e9eaee;
+  --fg:#0b1220;
+  --muted:#555;
+  --glass:rgba(255,255,255,.75);
+  --border:rgba(0,0,0,.12);
+  --shadow:0 20px 40px rgba(0,0,0,.18);
+}
 
-  <style>
-    :root{
-      --bg:#0b0f1a;
-      --card:rgba(18,22,32,.78);
-      --card-light:#e9eaec;
-      --sub:rgba(238,242,255,.72);
-      --border:rgba(255,255,255,.12);
-      --radius:22px;
-    }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto;
+  background:var(--bg);
+  color:var(--fg);
+}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background: radial-gradient(1200px 600px at 50% -200px,#16224a,#060912 70%);
-      color:#eef2ff;
-      transition:.25s;
-    }
+.bg{
+  position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(700px 400px at 50% -100px, rgba(124,58,237,.35), transparent),
+    linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.8));
+}
 
-    body.day{
-      background:#dfe1e5;
-      color:#111;
-    }
+.wrap{max-width:760px;margin:auto;padding:16px 14px 100px}
 
-    a{color:inherit;text-decoration:none}
+.card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  margin-bottom:18px;
+  backdrop-filter:blur(14px);
+}
 
-    .wrap{
-      max-width:720px;
-      margin:auto;
-      padding:16px;
-    }
+.center{text-align:center}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:16px;
-      margin-bottom:16px;
-      box-shadow:0 20px 40px rgba(0,0,0,.45);
-      transition:.25s;
-    }
+.avatar{
+  width:110px;height:110px;border-radius:50%;
+  margin:auto;
+  background:linear-gradient(135deg,#3b82f6,#9333ea);
+  display:grid;place-items:center;
+  font-size:40px;font-weight:800;
+}
 
-    body.day .card{
-      background:var(--card-light);
-      border-color:rgba(0,0,0,.12);
-      box-shadow:0 16px 32px rgba(0,0,0,.25);
-    }
+h1{margin:12px 0 4px}
+p{margin:4px 0;color:var(--muted)}
 
-    .profile{
-      text-align:center;
-    }
+.tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.tag{padding:6px 12px;border-radius:999px;border:1px solid var(--border)}
 
-    .avatar{
-      width:110px;height:110px;
-      border-radius:50%;
-      margin:auto;
-      background:linear-gradient(135deg,#3b82f6,#9333ea);
-      display:grid;place-items:center;
-      font-size:42px;font-weight:700;
-      color:white;
-    }
+.section-title{
+  font-weight:700;
+  opacity:.8;
+  margin-bottom:10px;
+}
 
-    h1{margin:12px 0 6px}
-    .bio{color:var(--sub);font-size:.95rem}
+/* NAV ITEM (INI YANG KAMU MAU) */
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  margin-bottom:10px;
+  text-decoration:none;
+  color:inherit;
+  background:rgba(255,255,255,.06);
+}
+.nav a::after{
+  content:"›";
+  margin-left:auto;
+  opacity:.6;
+  font-size:22px;
+}
 
-    body.day .bio{color:#555}
+/* CHAT */
+.embed iframe{
+  width:100%;
+  height:520px;
+  border:0;
+  border-radius:16px;
+}
 
-    .tags{
-      display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .tag{
-      padding:6px 12px;border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid var(--border);
-      font-size:.85rem;
-    }
+/* FLOAT BUTTON */
+.fab{
+  position:fixed;
+  right:16px;bottom:16px;
+  width:54px;height:54px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--glass);
+  border:1px solid var(--border);
+  font-size:22px;
+  cursor:pointer;
+}
 
-    body.day .tag{
-      background:#f2f3f5;border-color:#ccc;
-    }
-
-    .socials{
-      display:flex;gap:10px;justify-content:center;margin-top:12px;
-    }
-    .social{
-      width:42px;height:42px;border-radius:12px;
-      background:rgba(255,255,255,.08);
-      display:grid;place-items:center;
-      border:1px solid var(--border);
-      font-size:18px;
-    }
-
-    .section-title{
-      margin:4px 0 12px;
-      opacity:.75;
-      font-weight:600;
-    }
-
-    .nav-item{
-      display:flex;align-items:center;gap:12px;
-      padding:14px;border-radius:16px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--border);
-      margin-bottom:10px;
-    }
-
-    body.day .nav-item{
-      background:#f4f5f7;
-      border-color:#ccc;
-    }
-
-    .icon{
-      width:40px;height:40px;border-radius:12px;
-      display:grid;place-items:center;
-      background:rgba(255,255,255,.15);
-      font-size:18px;
-    }
-
-    iframe{
-      width:100%;
-      border:0;
-      border-radius:16px;
-    }
-
-    footer{
-      text-align:center;
-      opacity:.6;
-      font-size:.8rem;
-      margin:20px 0;
-    }
-
-    /* FAB */
-    .fab{
-      position:fixed;
-      right:16px;
-      bottom:16px;
-      width:54px;height:54px;
-      border-radius:50%;
-      background:rgba(18,22,32,.6);
-      border:1px solid var(--border);
-      display:grid;place-items:center;
-      font-size:22px;
-      cursor:pointer;
-      backdrop-filter:blur(10px);
-    }
-
-    body.day .fab{
-      background:white;
-      border-color:#ccc;
-    }
-  </style>
+footer{text-align:center;font-size:.8rem;opacity:.6}
+</style>
 </head>
 
-<body class="night">
-  <div class="wrap">
+<body>
+<div class="bg"></div>
 
-    <!-- PROFILE -->
-    <div class="card profile" id="home">
-      <div class="avatar">Z</div>
-      <h1>ZyrooNour</h1>
-      <div class="bio">Saya newbie yang suka ngulik web & project kecil.</div>
+<div class="wrap">
 
-      <div class="tags">
-        <div class="tag">Coder</div>
-        <div class="tag">Game</div>
-        <div class="tag">Music</div>
-      </div>
+<!-- PROFILE -->
+<div class="card center" id="home">
+  <div class="avatar">Z</div>
+  <h1>ZyrooNour</h1>
+  <p>Newbie yang suka ngulik web & project kecil</p>
 
-      <div class="socials">
-        <a class="social" href="https://github.com/caevzz" target="_blank">🐙</a>
-        <a class="social" href="https://wa.me/6285189656447" target="_blank">💬</a>
-      </div>
-    </div>
-
-    <!-- NAVIGATION -->
-    <div class="card">
-      <div class="section-title">Navigation</div>
-
-      <a href="#contact" class="nav-item">
-        <div class="icon">✉️</div>
-        <div>
-          <strong>Contact</strong><br>
-          <small>Informasi tentang saya</small>
-        </div>
-      </a>
-
-      <a href="#produk" class="nav-item">
-        <div class="icon">🛍️</div>
-        <div>
-          <strong>Produk</strong><br>
-          <small>Project & karya</small>
-        </div>
-      </a>
-
-      <a href="#tools" class="nav-item">
-        <div class="icon">🛠️</div>
-        <div>
-          <strong>Tools</strong><br>
-          <small>Web utilities</small>
-        </div>
-      </a>
-
-      <a href="#donasi" class="nav-item">
-        <div class="icon">🙏</div>
-        <div>
-          <strong>Donasi</strong><br>
-          <small>Dukungan sukarela</small>
-        </div>
-      </a>
-
-      <a href="#chat" class="nav-item">
-        <div class="icon">💬</div>
-        <div>
-          <strong>Grup Chat</strong><br>
-          <small>Diskusi & sharing</small>
-        </div>
-      </a>
-    </div>
-
-    <!-- CONTACT -->
-    <div class="card" id="contact">
-      <div class="section-title">Contact</div>
-      Email: zenoreamyc@gmail.com<br>
-      WhatsApp: +6285189656447<br>
-      GitHub: github.com/caevzz
-    </div>
-
-    <!-- PRODUK -->
-    <div class="card" id="produk">
-      <div class="section-title">Produk</div>
-      Project pribadi & eksperimen web.
-    </div>
-
-    <!-- TOOLS -->
-    <div class="card" id="tools">
-      <div class="section-title">Tools</div>
-      Downloader & web utilities (coming soon).
-    </div>
-
-    <!-- DONASI -->
-    <div class="card" id="donasi">
-      <div class="section-title">Donasi</div>
-      Support project secara sukarela.
-    </div>
-
-    <!-- CHAT -->
-    <div class="card" id="chat">
-      <div class="section-title">Grup Chat</div>
-      <iframe
-        src="https://www3.cbox.ws/box/?boxid=3550944&boxtag=FnAAxT"
-        height="420"
-        scrolling="no"
-        loading="lazy"
-        referrerpolicy="no-referrer">
-      </iframe>
-    </div>
-
-    <footer>© 2025 ZyrooNour</footer>
+  <div class="tags">
+    <div class="tag">Coder</div>
+    <div class="tag">Game</div>
+    <div class="tag">Music</div>
   </div>
+</div>
 
-  <!-- THEME TOGGLE -->
-  <div class="fab" id="toggle">🌙</div>
+<!-- NAVIGATION (INI PENTING) -->
+<div class="card nav">
+  <div class="section-title">Navigation</div>
+  <a href="#contact">📧 Contact</a>
+  <a href="#produk">🛍️ Produk</a>
+  <a href="#tools">🛠️ Tools</a>
+  <a href="#donasi">🙏 Donasi</a>
+</div>
 
-  <script>
-    const btn=document.getElementById("toggle");
-    const theme=document.getElementById("themeColor");
+<!-- COMMUNITY -->
+<div class="card nav">
+  <div class="section-title">Community</div>
+  <a href="#chat">💬 Grup Chat</a>
+</div>
 
-    btn.onclick=()=>{
-      document.body.classList.toggle("day");
-      const isDay=document.body.classList.contains("day");
-      btn.textContent=isDay?"☀️":"🌙";
-      theme.content=isDay?"#e9eaec":"#0b0f1a";
-    };
-  </script>
+<!-- CONTACT -->
+<div class="card" id="contact">
+  <div class="section-title">Contact</div>
+  <p>Email: zenoreamyc@gmail.com</p>
+  <p>WhatsApp: +6285189656447</p>
+  <p>GitHub: github.com/caevzz</p>
+</div>
+
+<!-- PRODUK -->
+<div class="card" id="produk">
+  <div class="section-title">Produk</div>
+  <p>Project pribadi & eksperimen web.</p>
+</div>
+
+<!-- TOOLS -->
+<div class="card" id="tools">
+  <div class="section-title">Tools</div>
+  <p>Downloader & Web Utilities (coming soon).</p>
+</div>
+
+<!-- DONASI -->
+<div class="card" id="donasi">
+  <div class="section-title">Donasi</div>
+  <p>Dukungan sukarela untuk pengembangan project.</p>
+</div>
+
+<!-- CHAT -->
+<div class="card" id="chat">
+  <div class="section-title">Grup Chat</div>
+  <div class="embed">
+    <iframe src="https://www3.cbox.ws/box/?boxid=3550944&boxtag=FnAAxT"></iframe>
+  </div>
+</div>
+
+<footer>© 2025 ZyrooNour</footer>
+</div>
+
+<div class="fab" id="toggle">🌙</div>
+
+<script>
+const btn=document.getElementById("toggle");
+btn.onclick=()=>{
+  document.body.classList.toggle("day");
+  btn.textContent=document.body.classList.contains("day")?"☀️":"🌙";
+};
+</script>
 </body>
 </html>

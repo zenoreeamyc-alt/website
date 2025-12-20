@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/produk",
+      "destination": "/produk.html"
+    },
+    {
+      "source": "/tools",
+      "destination": "/tools.html"
+    },
+    {
+      "source": "/donasi",
+      "destination": "/donasi.html"
+    }
+  ]
+}

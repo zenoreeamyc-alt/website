@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZyrooNour</title>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111a2e;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --accent:#3b82f6;
+    }
+    body.light{
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+    }
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .container{max-width:420px;margin:auto;padding:16px}
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.3)
+    }
+    h1{margin:0}
+    .nav button{
+      width:100%;
+      background:#1f2937;
+      border:none;
+      color:#fff;
+      padding:14px;
+      border-radius:14px;
+      margin-bottom:10px;
+      text-align:left;
+      font-size:15px;
+      cursor:pointer;
+    }
+    body.light .nav button{background:#e5e7eb;color:#111}
+    .hidden{display:none}
+    iframe{width:100%;border:none;border-radius:14px}
+    .toggle{
+      position:fixed;right:16px;bottom:16px;
+      background:#111827;color:#fff;
+      border:none;border-radius:50%;
+      width:48px;height:48px;
+      font-size:18px;cursor:pointer;
+    }
+    .muted{color:var(--muted)}
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- PROFILE -->
+  <div class="card">
+    <h1>ZyrooNour</h1>
+    <p class="muted">Personal Website</p>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="card nav">
+    <button onclick="show('contact')">📧 Contact</button>
+    <button onclick="show('produk')">🛒 Produk</button>
+    <button onclick="show('tools')">🛠 Tools</button>
+    <button onclick="show('donasi')">🙏 Donasi</button>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="card hidden">
+    <h3>Contact</h3>
+    <p>Email: zenoreamyc@gmail.com</p>
+    <p>WhatsApp: +6285189656447</p>
+    <p>GitHub: github.com/caevzz</p>
+  </div>
+
+  <!-- PRODUK -->
+  <div id="produk" class="card hidden">
+    <h3>Produk</h3>
+    <p>Project pribadi & eksperimen web.</p>
+  </div>
+
+  <!-- TOOLS -->
+  <div id="tools" class="card hidden">
+    <h3>Tools</h3>
+    <p>Coming soon.</p>
+  </div>
+
+  <!-- DONASI -->
+  <div id="donasi" class="card hidden">
+    <h3>Donasi</h3>
+    <p>Dukungan sukarela untuk project.</p>
+  </div>
+
+  <!-- SPOTIFY -->
+  <div class="card">
+    <h3>Spotify Playlist</h3>
+    <iframe height="152"
+      src="https://open.spotify.com/embed/playlist/5oVzQUYicfqlOzCUVh240Z">
+    </iframe>
+  </div>
+
+  <!-- CBOX -->
+  <div class="card">
+    <iframe height="300"
+      src="https://www3.cbox.ws/box/?boxid=3550944&boxtag=FnAAxT">
+    </iframe>
+  </div>
+
+</div>
+
+<button class="toggle" onclick="toggleTheme()">🌙</button>
+
+<script>
+  function show(id){
+    document.querySelectorAll('#contact,#produk,#tools,#donasi')
+      .forEach(e=>e.style.display='none');
+    document.getElementById(id).style.display='block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function toggleTheme(){
+    document.body.classList.toggle('light');
+    localStorage.theme=document.body.className;
+  }
+  if(localStorage.theme) document.body.className=localStorage.theme;
+</script>
+
+</body>
+</html>

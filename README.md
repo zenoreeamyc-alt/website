@@ -30,3 +30,9 @@ Put images in:
 Put your images here:
 - public/images/cover.jpg
 - public/images/avatar.jpg
+
+
+## Images
+Replace:
+- public/images/avatar.jpg (kucing)
+- public/images/cover.jpg (anime)

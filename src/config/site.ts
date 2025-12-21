@@ -1,14 +1,17 @@
 export const site = {
-  name: "NAMA KAMU",
-  subtitle: "Bio singkat kamu di sini.",
-  tags: ["Coder", "Game", "Music"],
+  name: "ZyrooNour",
+  subtitle: "Just a personal hub.",
+  tags: ["Dev", "Music", "Community"],
 
   coverImage: "/images/cover.jpg",
   avatarImage: "/images/avatar.jpg",
 
   // Replace with your own embed URL
   spotifyEmbedUrl:
-    "https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M",
+    "https://open.spotify.com/embed/playlist/5oVzQUYicfqlOzCUVh240Z?utm_source=generator",
+
+  cboxEmbedUrl:
+    "https://www3.cbox.ws/box/?boxid=3550944&boxtag=FnAAxT",
 
   navigation: [
     { title: "Contact", desc: "Contact Help Center", href: "#contact" },

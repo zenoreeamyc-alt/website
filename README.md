@@ -1,38 +1,60 @@
-# zass-clone
+# ZyrooNour Monorepo (1 repo, many hostings)
 
-Clone-style landing page inspired by a profile/link hub.
+Folder:
+- `apps/web-next`   → Next.js (recommended for **Vercel**)
+- `apps/web-static` → Static HTML (recommended for **Netlify / Cloudflare Pages / GitHub Pages / any hosting**)
 
-## Install
+## 1) Install
 ```bash
 npm install
 ```
 
-## Dev
-```bash
-npm run dev
-```
+## 2) Run locally
+- Next.js:
+  ```bash
+  npm run dev:next
+  ```
+  open http://localhost:3000
 
-## Build
-```bash
-npm run build
-npm run start
-```
+- Static:
+  ```bash
+  npm run dev:static
+  ```
+  open http://localhost:5173
 
-## Customize
-Edit branding/links in `src/config/site.ts`.
+## Deploy matrix
 
-Put images in:
-- `public/images/cover.jpg`
-- `public/images/avatar.jpg`
+### A) Vercel (Next.js)
+Create a new Vercel project → Import repo → set:
+- **Root Directory**: `apps/web-next`
+- Framework: Next.js (auto)
+- Build command: default
+Deploy ✅
 
+### B) Netlify (Static)
+Create site → Import repo → set:
+- **Base directory**: `apps/web-static`
+- **Build command**: (empty)
+- **Publish directory**: `apps/web-static`
+Deploy ✅
+
+If you use *Deploy manually* in Netlify, upload the content of `apps/web-static` (or zip it).
+
+### C) Cloudflare Pages (Static)
+Create project → Connect repo → set:
+- **Root directory**: `apps/web-static`
+- Build command: (empty)
+- Output directory: `/` or leave empty
+Deploy ✅
+
+### D) GitHub Pages (Static)
+Use `apps/web-static` as the publishing folder (or deploy it with actions).
 
 ## Replace images
-Put your images here:
-- public/images/cover.jpg
-- public/images/avatar.jpg
+- Static:
+  - `apps/web-static/assets/images/cover.jpg`
+  - `apps/web-static/assets/images/avatar.jpg`
 
-
-## Images
-Replace:
-- public/images/avatar.jpg (kucing)
-- public/images/cover.jpg (anime)
+- Next.js:
+  - `apps/web-next/public/images/cover.jpg`
+  - `apps/web-next/public/images/avatar.jpg`

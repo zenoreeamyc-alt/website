@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { site } from "@/config/site";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/5 backdrop-blur px-3 py-1 text-xs text-white/80">
+    <span className="rounded-full border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 px-3 py-1 text-xs text-black/70 dark:text-white/80">
       {children}
     </span>
   );
@@ -21,10 +22,10 @@ function CardLink({
   return (
     <a
       href={href}
-      className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-4 hover:bg-white/10 active:scale-[0.99] transition"
+      className="rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 p-4 hover:bg-white/10 active:scale-[0.99] transition"
     >
       <div className="text-base font-semibold">{title}</div>
-      <div className="text-sm text-white/70">{desc}</div>
+      <div className="text-sm text-black/60 dark:text-white/70">{desc}</div>
     </a>
   );
 }
@@ -33,7 +34,7 @@ function ButtonLink({ label, href }: { label: string; href: string }) {
   return (
     <a
       href={href}
-      className="rounded-xl border border-white/10 bg-white/5 backdrop-blur px-3 py-2 text-sm hover:bg-white/10 active:scale-[0.99] transition"
+      className="rounded-xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 px-3 py-2 text-sm hover:bg-white/10 active:scale-[0.99] transition"
     >
       {label}
     </a>
@@ -42,7 +43,7 @@ function ButtonLink({ label, href }: { label: string; href: string }) {
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-neutral-950 text-white selection:bg-white/10">
+    <main className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-neutral-950 dark:text-white">
       {/* Cover */}
       <div className="relative h-64 w-full">
         <Image
@@ -52,13 +53,16 @@ export default function Page() {
           priority
           className="object-cover opacity-90"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-neutral-950/40 to-neutral-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/40 dark:from-black/10 dark:via-neutral-950/40 dark:to-neutral-950" />
       </div>
 
-      <section className="mx-auto -mt-14 w-full max-w-3xl px-4 pb-16">
+      <section className="mx-auto -mt-16 w-full max-w-2xl px-4 pb-16">
         {/* Profile */}
+        <div className="mb-3 flex items-center justify-end">
+          <ThemeToggle />
+        </div>
         <div className="flex items-end gap-4">
-          <div className="relative h-28 w-28 overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
+          <div className="relative h-28 w-28 overflow-hidden rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5">
             <Image
               src={site.avatarImage}
               alt="Avatar"
@@ -69,7 +73,7 @@ export default function Page() {
 
           <div className="flex-1">
             <h1 className="text-2xl font-bold leading-tight">{site.name}</h1>
-            <p className="text-sm text-white/70">{site.subtitle}</p>
+            <p className="text-sm text-black/60 dark:text-white/70">{site.subtitle}</p>
 
             <div className="mt-2 flex flex-wrap gap-2">
               {site.tags.map((t) => (
@@ -84,7 +88,7 @@ export default function Page() {
           <div className="mb-3 text-sm font-semibold text-white/90">
             Spotify Playlist
           </div>
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
+          <div className="overflow-hidden rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5">
             <iframe
               src={site.spotifyEmbedUrl}
               width="100%"
@@ -116,9 +120,9 @@ export default function Page() {
         <div id="contact" className="mt-8 scroll-mt-24">
           <div className="mb-3 text-sm font-semibold text-white/90">Contact</div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-4">
+          <div className="rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 p-4">
             <div className="text-sm font-semibold">Contact Help Center</div>
-            <div className="text-sm text-white/70">
+            <div className="text-sm text-black/60 dark:text-white/70">
               Hubungi kami lewat channel berikut
             </div>
 
@@ -135,9 +139,9 @@ export default function Page() {
             Community
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-4">
+          <div className="rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 p-4">
             <div className="text-sm font-semibold">Grup Chat</div>
-            <div className="text-sm text-white/70">
+            <div className="text-sm text-black/60 dark:text-white/70">
               Gabung ke grup support &amp; sharing
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -147,9 +151,9 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="mt-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-4">
+          <div className="mt-3 rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 p-4">
             <div className="text-sm font-semibold">Channel Info</div>
-            <div className="text-sm text-white/70">
+            <div className="text-sm text-black/60 dark:text-white/70">
               Dapatkan notifikasi update penting
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -164,7 +168,7 @@ export default function Page() {
         {/* Cbox */}
         <div className="mt-8">
           <div className="mb-3 text-sm font-semibold text-white/90">Cbox</div>
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
+          <div className="overflow-hidden rounded-2xl border border-black/10 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5">
             <iframe
               src={site.cboxEmbedUrl}
               width="100%"
